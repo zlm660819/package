@@ -81,6 +81,6 @@ def fibonacci_search(list_obj, key):
  
 
 if __name__ == '__main__':
-    LIST = [1, 5, 7, 8, 22, 54, 99, 123, 200, 222, 444]
-    result = binary_search(LIST, 99)
+    list_obj = [1, 2, 5, 8, 10, 15, 19, 23, 25, 28, 30]
+    result = binary_search(list_obj, 19)
     print(result)
