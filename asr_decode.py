@@ -1,3 +1,33 @@
+#hmm verterbi decode
+
+def viterbi_decode_v2(nodes, trans):
+    """
+    Viterbi算法求最优路径v2
+    其中 nodes.shape=[seq_len, num_labels],
+        trans.shape=[num_labels, num_labels].
+    """
+    seq_len, num_labels = len(nodes), len(trans)
+    scores = nodes[0].reshape((-1, 1))
+    paths = []
+    # # 递推求解上一时刻t-1到当前时刻t的最优
+    for t in range(1, seq_len):
+        observe = nodes[t].reshape((1, -1))
+        M = scores + trans + observe
+        scores = np.max(M, axis=0).reshape((-1, 1))
+        idxs = np.argmax(M, axis=0)
+        paths.append(idxs.tolist())
+
+    best_path = [0] * seq_len
+    best_path[-1] = np.argmax(scores)
+    # 最优路径回溯
+    for i in range(seq_len-2, -1, -1):
+        idx = best_path[i+1]
+        best_path[i] = paths[i][idx]
+        
+    return best_path
+
+
+
 #ctc predix beam search
 def _prefix_beam_decode(y, beam_size, blank):
     T, V = y.shape
