@@ -75,3 +75,39 @@ if __name__ == '__main__':
     array = [3, 5, 11, 4, 2, 0, 12, 2, 3, 1]
     quicksort(array, 0, len(array)-1)
     print(array)
+
+
+
+# 自底向上的归并算法
+def mergeBU(alist):
+    n = len(alist)
+    #表示归并的大小
+    size = 1
+    while size <= n:
+        for i in range(0, n-size, size+size):
+            merge(alist, i, i+size-1, min(i+size+size-1, n-1))
+        size += size
+    return alist
+
+# 合并有序数列alist[start....mid] 和 alist[mid+1...end]，使之成为有序数列
+def merge(alist, start, mid, end):
+    # 复制一份
+    blist = alist[start:end+1]
+    l = start
+    k = mid + 1
+    pos = start
+
+    while pos <= end:
+        if (l > mid):
+            alist[pos] = blist[k-start]
+            k += 1
+        elif (k > end):
+            alist[pos] = blist[l-start]
+            l += 1
+        elif blist[l-start] <= blist[k-start]:
+            alist[pos] = blist[l-start]
+            l += 1
+        else:
+            alist[pos] = blist[k-start]
+            k += 1
+        pos += 1
